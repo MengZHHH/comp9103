@@ -12,8 +12,9 @@ public class tutwk5hwex1 {
 		int alength = 0;
 		while (scn.hasNext()){
 			alength++;
-			scn.next();
-		}
+			String x = scn.next();
+			System.out.println(x);
+		}//scn.close();
 		String[] paragraph = new String[alength];
 		int[] counts = new int[paragraph.length];
 		for (int i=0;i<paragraph.length;i++){
