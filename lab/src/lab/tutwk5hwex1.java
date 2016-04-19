@@ -23,7 +23,9 @@ public class tutwk5hwex1 {
 		for (int i=0;i<paragraph.length;i++){
 			System.out.println(paragraph[i]);
 		}
-
+public static String[] parseParagraph(String[] p){
+	//call scanner and return values
+}
 	}
 
 }
