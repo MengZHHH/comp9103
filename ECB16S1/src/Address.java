@@ -1,25 +1,21 @@
 
 public class Address {
 
-	private String[] addresslist;
+	private String address;
 	
-	public Address(int id, String[] address){
+	public Address(String address){
 		checkAddress(address);
-		addresslist = address;
+		this.address = address;
+
 	}
 	
-	public static boolean checkAddress(String[] address){
+	public static boolean checkAddress(String address){
 		//do some regex
 		return true;
 	}
 	
 	public String toString(){
-		//print format as a string
-		String addresscat = "";
-		for (String address : addresslist){
-			if (address == null){}else{
-				addresscat = addresscat +" "+ address;}
-		}
+		String addresscat = "address "+this.address;
 		return addresscat;
 	}
 	

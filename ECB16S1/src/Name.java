@@ -1,25 +1,22 @@
 
+
 public class Name {
 
-	private String[] namelist;
+	private String name;
 	
-	public Name(int id, String[] names){
-		checkName(names);
-		namelist = names;
+	public Name(String name){
+		checkName(name);
+		this.name = name;
+
 	}
 	
-	public static boolean checkName(String[] names){
+	public static boolean checkName(String name){
 		//do some regex
 		return true;
 	}
 	
 	public String toString(){
-		//print format as a string
-		String namecat = "";
-		for (String name : namelist){
-			if (name == null){}else{
-			namecat = namecat +" "+ name;}
-		}
+		String namecat = "name "+this.name;
 		return namecat;
 	}
 	
