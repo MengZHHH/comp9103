@@ -1,3 +1,5 @@
-add name Bob Alex Lockie birthday 21/11/1999 phone 00000001
+add name Bob Alex Lockie; birthday 21/11/1999; phone 00000001
 
-add name johno pinder birthday 21/2/2012 phone 89988776 address 32 little st bundaberg
+add name johno pinder; birthday 21/2/2012; phone 89988776; address 32 little st bundaberg
+
+add name Bob Alex Lockie; birthday 21/11/1999; phone 00000002

@@ -58,8 +58,10 @@ public static void switcher(Phonebookentry thephonebookentry,int index,String pa
 	case 5:{//add
 		String name,birthday;
 		Scanner pscn = new Scanner(param);
-		pscn.next();name=pscn.next();pscn.next();birthday=pscn.next();//should check these values before proceding
-		param = pscn.nextLine();//multi term name not account for here!!!
+		pscn.useDelimiter(";");
+		String argname = pscn.next();String argbirthday = pscn.next();
+		name = argname.replace("name ","");birthday = argbirthday.replace("birthday ", "");
+		param = pscn.nextLine();
 		System.out.println("name is: "+name);
 		System.out.println(birthday);
 		System.out.println("param for add or replace: "+param);

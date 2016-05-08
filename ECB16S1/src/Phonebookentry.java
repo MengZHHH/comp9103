@@ -30,27 +30,30 @@ public class Phonebookentry {
 			for (String field : entry.getEntry())
 			if (name.equals(field)){
 				for (String otherfield : entry.getEntry()){
-					if (birthday.equals(otherfield)){
-						String nextparam = "";
-						String nextfield = null;
+					if (birthday.equals(otherfield)){//the replace
+						pscn.useDelimiter(";");
 						while (pscn.hasNext()){
-							if (nextfield == null){
-								nextfield = pscn.next();
-							}
-							String fieldparam = "";
-							while (!Interpreter.isTerm(nextparam) && pscn.hasNext()){
-								nextparam = pscn.next();
-								fieldparam = fieldparam + nextparam + " ";
-							}int index = Interpreter.searchTerm(nextfield);
-							Interpreter.switcher(entry,index,fieldparam);
+							String nextparam;
+							nextparam = pscn.next();
+							String keyword, input;
+							Scanner vscn = new Scanner(nextparam);
+							keyword = vscn.next();input = vscn.nextLine();vscn.close();
+							entry.rmField(keyword);//field already exists in entry
+							int index = Interpreter.searchTerm(keyword);
+							Interpreter.switcher(entry,index,input);
+						
 						}
-						found =true;pscn.close();
+					found =true;pscn.close();
 					}
 					
 				}
 			}
-		}if (!found){
-			String fullparam = "name "+ name + "birthday " + birthday + " " + param;
+		}if (!found){//the add
+			String paramcat ="";
+			Scanner vscn = new Scanner(param);
+			while (vscn.hasNext()){
+			paramcat = paramcat + vscn.next() +"\n";}vscn.close();
+			String fullparam = "name "+ name +"\n"+ "birthday " + birthday + "\n" + paramcat;
 			Scanner nscn = new Scanner(fullparam);
 			Scanner nlscn = new Scanner(fullparam);
 			ECB.setEntryId();
@@ -59,7 +62,11 @@ public class Phonebookentry {
 		
 	}
 	public void rmField(String field){
-		
+		for (String Field : aphonebookentry){
+			if (Field.indexOf(field) != -1){
+				aphonebookentry.remove(Field);
+			}
+		}
 	}
 	public void updateField(String field,String newField){
 		//if field is address (get switch num) then
