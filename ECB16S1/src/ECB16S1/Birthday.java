@@ -1,4 +1,4 @@
-
+package ECB16S1;
 public class Birthday {
 	
 private String birthday;

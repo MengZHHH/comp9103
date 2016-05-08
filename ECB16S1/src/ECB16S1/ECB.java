@@ -1,3 +1,5 @@
+package ECB16S1;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,10 +9,11 @@ import java.util.regex.Pattern;
 
 public class ECB {
 	public static ArrayList<Phonebookentry> thephonebook = new ArrayList<Phonebookentry>();
+	public static ArrayList<Phonebookentry> results = new ArrayList<Phonebookentry>();
 	protected static int entryid = -1;
 	protected static int next_available_id = 0;
 	private static File infile;
-	private static File ifile;//instrauctions
+	private static File ifile;//instructions
 	private static File outfile;	
 	private static File rfile;//results
 
@@ -26,7 +29,8 @@ public class ECB {
 			Scanner lscn = new Scanner(infile);
 			FileWriter fw = new FileWriter(outfile);
 			PrintWriter pw = new PrintWriter(fw);
-
+			FileWriter rfw = new FileWriter(rfile);
+			PrintWriter rpw = new PrintWriter(rfw);
 //build the phone book from input file		
 		while (scn.hasNextLine()){
 		setEntryId();
@@ -42,9 +46,17 @@ public class ECB {
 			System.out.println("new instruction");
 			Interpreter.interpret(scn,lscn);
 			}
-		//sort query results
-		//output results of instructions
 		
+		
+		//sort query results
+		ArrayList<Phonebookentry> sortedresults = Sort.sortPhonebook(results);
+		
+		//output results of instructions
+		for (Phonebookentry phonebookentry : sortedresults){
+			rpw.println(phonebookentry.toString());
+			rpw.println("blank line");
+	}rpw.close();rfw.close();
+
 //Print the output phone book file
 			for (Phonebookentry phonebookentry : thephonebook){
 					pw.println(phonebookentry.toString());

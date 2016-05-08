@@ -1,3 +1,4 @@
+package ECB16S1;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -39,6 +40,7 @@ public class Phonebookentry {
 							Scanner vscn = new Scanner(nextparam);
 							keyword = vscn.next();input = vscn.nextLine();vscn.close();
 							entry.rmField(keyword);//field already exists in entry
+							System.out.println("adding keyword:"+keyword+"with input:"+input);
 							int index = Interpreter.searchTerm(keyword);
 							Interpreter.switcher(entry,index,input);
 						
@@ -49,15 +51,18 @@ public class Phonebookentry {
 				}
 			}
 		}if (!found){//the add
+			System.out.println("addReplace did not find matching entry");
 			String paramcat ="";
 			Scanner vscn = new Scanner(param);
 			while (vscn.hasNext()){
 			paramcat = paramcat + vscn.next() +"\n";}vscn.close();
 			String fullparam = "name "+ name +"\n"+ "birthday " + birthday + "\n" + paramcat;
+			System.out.println("sending:"+fullparam+"to the interpreter");
 			Scanner nscn = new Scanner(fullparam);
 			Scanner nlscn = new Scanner(fullparam);
 			ECB.setEntryId();
 			Interpreter.interpret(nscn, nlscn);
+			ECB.thephonebook.add(ECB.getEntryId(),Interpreter.thephonebookentry);
 		}
 		
 	}
@@ -65,6 +70,40 @@ public class Phonebookentry {
 		for (String Field : aphonebookentry){
 			if (Field.indexOf(field) != -1){
 				aphonebookentry.remove(Field);
+			}
+		}
+	}
+	public static void query(String param){
+		//search thephonebook
+		//query phone 9110110
+		for (Phonebookentry entry : ECB.thephonebook){
+			for (String field : entry.getEntry()){
+				if (field.equals(param)){
+					ECB.results.add(entry);
+				}
+			}
+		}
+	}
+	public static void delete(String param){
+		//delete Jeff Vader ; 8-07-1980
+		//delete Jaff vaders
+		Scanner scn = new Scanner(param);
+		scn.useDelimiter(";");
+		String name,birthday=null;
+		name = scn.next().trim(); 
+		if (scn.hasNext()){
+			birthday = scn.next().trim();scn.close();
+			for (Phonebookentry entry : ECB.thephonebook){
+				for (String field : entry.getEntry()){
+					if (name.equals(field)){if (birthday==null){ECB.thephonebook.remove(entry);}
+						for (String otherfield : entry.getEntry()){
+							if (birthday.equals(otherfield)){
+								ECB.thephonebook.remove(entry);
+								
+							}
+						}
+					}
+				}
 			}
 		}
 	}

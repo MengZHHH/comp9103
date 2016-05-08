@@ -1,3 +1,4 @@
+package ECB16S1;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -23,7 +24,7 @@ public class Interpreter {
 		lscn.nextLine();
 			while (scn.hasNextLine()){
 					String instruction = scn.nextLine();
-				System.out.println(instruction);
+				System.out.println("interpreter instruction:"+instruction);
 					Scanner iscn = new Scanner(instruction);
 					String keyword=null, param;
 					if (iscn.hasNext()){
@@ -31,7 +32,7 @@ public class Interpreter {
 					}
 					if (iscn.hasNextLine()){
 						param = iscn.nextLine();iscn.close();
-						System.out.println(param);
+						System.out.println("param:"+param);
 					}
 					else {iscn.close();continue;}
 					int index = -1;
@@ -62,19 +63,19 @@ public static void switcher(Phonebookentry thephonebookentry,int index,String pa
 		String argname = pscn.next();String argbirthday = pscn.next();
 		name = argname.replace("name ","");birthday = argbirthday.replace("birthday ", "");
 		param = pscn.nextLine();
-		System.out.println("name is: "+name);
-		System.out.println(birthday);
-		System.out.println("param for add or replace: "+param);
+		System.out.println("addReplace name:"+name);
+		System.out.println("addReplace birthday:"+birthday);
+		System.out.println("param for add or replace:"+param);
 		Phonebookentry.addReplace(name,birthday,param);pscn.close();
 	}
 	case 6:{//delete
-		
+		Phonebookentry.delete(param);
 	}
 	case 7:{//save
-		
+		//ECB.outputResults();
 	}
 	case 8:{//query
-		
+		Phonebookentry.query(param);
 	}
 	case 4:{//address
 		Address address = new Address(param);
