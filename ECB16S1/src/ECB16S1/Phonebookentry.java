@@ -2,27 +2,19 @@ package ECB16S1;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-
-
 public class Phonebookentry {
 	private ArrayList<String> aphonebookentry;
 	
 	public Phonebookentry() {
 		aphonebookentry = new ArrayList<String>();
 	}
-	
 	public void addField(String field){
 		//add field to an entry list 
-		aphonebookentry.add(field);
-		
+		aphonebookentry.add(field);		
 	}
 	public ArrayList<String> getEntry(){
 		return aphonebookentry;
 	}
-//	public void replaceField(int entryId, ){
-	//	Interpreter.switcher(Phonebookentry phonebookentry,int index,String param)
-		
-//	}
 	
 	public static void addReplace(String name, String birthday, String param){
 		boolean found =false;
@@ -35,7 +27,7 @@ public class Phonebookentry {
 						pscn.useDelimiter(";");
 						while (pscn.hasNext()){
 							String nextparam;
-							nextparam = pscn.next();
+							nextparam = pscn.next().trim();
 							String keyword, input;
 							Scanner vscn = new Scanner(nextparam);
 							keyword = vscn.next();input = vscn.nextLine();vscn.close();
@@ -54,15 +46,17 @@ public class Phonebookentry {
 			System.out.println("addReplace did not find matching entry");
 			String paramcat ="";
 			Scanner vscn = new Scanner(param);
+			vscn.useDelimiter(";");
 			while (vscn.hasNext()){
-			paramcat = paramcat + vscn.next() +"\n";}vscn.close();
+			paramcat = paramcat + vscn.next().trim() +"\n";}vscn.close();
 			String fullparam = "name "+ name +"\n"+ "birthday " + birthday + "\n" + paramcat;
 			System.out.println("sending:"+fullparam+"to the interpreter");
 			Scanner nscn = new Scanner(fullparam);
 			Scanner nlscn = new Scanner(fullparam);
-			ECB.setEntryId();
+			//ECB.setEntryId();
 			Interpreter.interpret(nscn, nlscn);
-			ECB.thephonebook.add(ECB.getEntryId(),Interpreter.thephonebookentry);
+			//ECB.thephonebook.add(ECB.getEntryId(),Interpreter.thephonebookentry);//out of bounds exception
+			ECB.thephonebook.add(Interpreter.thephonebookentry);
 		}
 		
 	}
@@ -93,7 +87,9 @@ public class Phonebookentry {
 		name = scn.next().trim(); 
 		if (scn.hasNext()){
 			birthday = scn.next().trim();scn.close();
-			for (Phonebookentry entry : ECB.thephonebook){
+			//for (Phonebookentry entry : ECB.thephonebook){//throws concurrent modification error
+			for (int i=0;i<ECB.thephonebook.size();i++){
+				Phonebookentry entry = ECB.thephonebook.get(i);
 				for (String field : entry.getEntry()){
 					if (name.equals(field)){if (birthday==null){ECB.thephonebook.remove(entry);}
 						for (String otherfield : entry.getEntry()){

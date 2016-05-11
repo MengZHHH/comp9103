@@ -31,12 +31,12 @@ public class Interpreter {
 						keyword = iscn.next();
 					}
 					if (iscn.hasNextLine()){
-						param = iscn.nextLine();iscn.close();
+						param = iscn.nextLine().trim();iscn.close();
 						System.out.println("param:"+param);
 					}
 					else {iscn.close();continue;}
 					int index = -1;
-					if (isTerm(keyword)){ index = searchTerm(keyword);}
+					if (isTerm(keyword)){ index = searchTerm(keyword); System.out.println("index = "+values[index]);}
 					else { System.out.println("interpreter found invalid field type or command. Skipping through...");
 					lscn.nextLine();
 					scn.nextLine();
@@ -44,11 +44,8 @@ public class Interpreter {
 		
 		switcher(thephonebookentry,index,param);			
 					
-if (lscn.hasNextLine() && lscn.nextLine().isEmpty()){break;}
+			if (lscn.hasNextLine() && lscn.nextLine().isEmpty()){break;}//does this break loop early enough??
 			}
-	
-
-	
 }
 public static void switcher(Phonebookentry thephonebookentry,int index,String param){	
 	switch (index){
@@ -61,21 +58,23 @@ public static void switcher(Phonebookentry thephonebookentry,int index,String pa
 		Scanner pscn = new Scanner(param);
 		pscn.useDelimiter(";");
 		String argname = pscn.next();String argbirthday = pscn.next();
-		name = argname.replace("name ","");birthday = argbirthday.replace("birthday ", "");
+		name = argname.replace("name ","").trim();birthday = argbirthday.replace("birthday ", "").trim();
 		param = pscn.nextLine();
 		System.out.println("addReplace name:"+name);
 		System.out.println("addReplace birthday:"+birthday);
 		System.out.println("param for add or replace:"+param);
-		Phonebookentry.addReplace(name,birthday,param);pscn.close();
+		Phonebookentry.addReplace(name,birthday,param);pscn.close();break;
 	}
 	case 6:{//delete
-		Phonebookentry.delete(param);
+		System.out.println("deleting..."+param);
+		Phonebookentry.delete(param);break;
 	}
 	case 7:{//save
 		//ECB.outputResults();
+		break;
 	}
 	case 8:{//query
-		Phonebookentry.query(param);
+		Phonebookentry.query(param);break;
 	}
 	case 4:{//address
 		Address address = new Address(param);
