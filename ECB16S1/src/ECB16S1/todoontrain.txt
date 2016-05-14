@@ -1,0 +1,7 @@
+Output file should have each field on a newline and each entry separated by blank line
+Add regex to fields
+Write errors
+Write javadoc
+Test sort and different file inputs
+Changes reults file format
+set java class path

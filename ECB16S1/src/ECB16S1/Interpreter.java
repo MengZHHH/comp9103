@@ -26,7 +26,7 @@ public class Interpreter {
 					String instruction = scn.nextLine();
 				System.out.println("interpreter instruction:"+instruction);
 					Scanner iscn = new Scanner(instruction);
-					String keyword=null, param;
+					String keyword=null, param="is not set yet";
 					if (iscn.hasNext()){
 						keyword = iscn.next();
 					}
@@ -42,7 +42,8 @@ public class Interpreter {
 					scn.nextLine();
 					continue;}
 		
-		switcher(thephonebookentry,index,param);			
+		switcher(thephonebookentry,index,param);
+		System.out.println("switcher was called");
 					
 			if (lscn.hasNextLine() && lscn.nextLine().isEmpty()){break;}//does this break loop early enough??
 			}
@@ -70,10 +71,11 @@ public static void switcher(Phonebookentry thephonebookentry,int index,String pa
 		Phonebookentry.delete(param);break;
 	}
 	case 7:{//save
-		//ECB.outputResults();
+		ECB.saveResults();
 		break;
 	}
 	case 8:{//query
+		System.out.println("query called in switch with param:"+param);
 		Phonebookentry.query(param);break;
 	}
 	case 4:{//address

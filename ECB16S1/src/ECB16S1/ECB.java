@@ -16,56 +16,87 @@ public class ECB {
 	private static File ifile;//instructions
 	private static File outfile;	
 	private static File rfile;//results
-
-
 	
 	public static void main(String[] args){
 		infile = new File(args[0]);
 		ifile = new File(args[1]);
 		outfile = new File(args[2]);
 		rfile = new File(args[3]);
-		try {
-			Scanner scn = new Scanner(infile);
-			Scanner lscn = new Scanner(infile);
-			FileWriter fw = new FileWriter(outfile);
-			PrintWriter pw = new PrintWriter(fw);
-			FileWriter rfw = new FileWriter(rfile);
-			PrintWriter rpw = new PrintWriter(rfw);
-//build the phone book from input file		
-		while (scn.hasNextLine()){
-		setEntryId();
-		System.out.println("new entry " + getEntryId());
-		Interpreter.interpret(scn,lscn);
-		thephonebook.add(getEntryId(),Interpreter.thephonebookentry);
-		}
 
-//open and interpret instructions
-		scn = new Scanner(ifile);
-		lscn = new Scanner(ifile);
-		while (scn.hasNextLine()){
-			System.out.println("new instruction");
-			Interpreter.interpret(scn,lscn);
-			}
+//build the phone book from input file		
+		build();
+
+//open and interpret instructions 
+		instruct();
 		
-		
-		//sort query results
-		ArrayList<Phonebookentry> sortedresults = Sort.sortPhonebook(results);
-		
-		//output results of instructions
-		for (Phonebookentry phonebookentry : sortedresults){
-			rpw.println(phonebookentry.toString());
-			rpw.println("blank line");
-	}rpw.close();rfw.close();
+		saveResults();//Optional if instruction uses save command
 
 //Print the output phone book file
+		savePhonebook();
+
+	}
+
+	public static void savePhonebook(){
+		FileWriter fw;
+		try {
+			fw = new FileWriter(outfile);
+			PrintWriter pw = new PrintWriter(fw);
 			for (Phonebookentry phonebookentry : thephonebook){
-					pw.println(phonebookentry.toString());
-				pw.println("blank line");
-			}pw.close();fw.close();
-			
+				pw.println(phonebookentry.toString());
+		}pw.close();fw.close();System.out.println("phonebook output file saved");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+	}
+	public static void build(){
+		Scanner scn;
+		try {
+			scn = new Scanner(infile);
+			Scanner lscn = new Scanner(infile);
+			while (scn.hasNextLine()){
+				setEntryId();
+				System.out.println("new entry " + getEntryId());
+				Interpreter.interpret(scn,lscn);
+				thephonebook.add(getEntryId(),Interpreter.thephonebookentry);
+				}
+			System.out.println("phonebook built");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}		
+	}
+	public static void instruct(){
+
+		try {
+			Scanner lscn = new Scanner(ifile);
+			Scanner scn = new Scanner(ifile);
+			while (scn.hasNextLine()){
+				System.out.println("new instruction");
+				Interpreter.interpret(scn,lscn);
+				}System.out.println("instructions finished");
+			
+					
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}	
+	}
+	
+	public static void saveResults(){
+		//sort query results
+		ArrayList<Phonebookentry> sortedresults = Sort.sortPhonebook(results);
+		System.out.println("srted results");
+		//output results of instructions
+		try {
+			FileWriter rfw = new FileWriter(rfile);
+			PrintWriter rpw = new PrintWriter(rfw);
+			System.out.println("outputting results to file");
+			for (Phonebookentry phonebookentry : sortedresults){
+				rpw.println(phonebookentry.toString());
+		}rpw.close();rfw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 	}
 	
 	public static void setEntryId(){

@@ -68,12 +68,19 @@ public class Phonebookentry {
 		}
 	}
 	public static void query(String param){
-		//search thephonebook
 		//query phone 9110110
+		//query name joe bloggs
+		//query birthday 12/04/1999
 		for (Phonebookentry entry : ECB.thephonebook){
-			for (String field : entry.getEntry()){
+			System.out.println("quering new entry");
+			System.out.println(entry.getEntry().getClass());
+			for( int i=0;i<entry.getEntry().size();i++){
+				String field = entry.getEntry().get(i);
+			//for (String field : entry.getEntry()){
+				System.out.println("entry field:"+field+"compared to param:"+param);
 				if (field.equals(param)){
 					ECB.results.add(entry);
+					System.out.println("query matched an entry");
 				}
 			}
 		}
@@ -103,19 +110,24 @@ public class Phonebookentry {
 			}
 		}
 	}
-	public void updateField(String field,String newField){
-		//if field is address (get switch num) then
-		//.remove() the address
-		//
-	}
 	
 	public String toString(){
 		//print multiline string of entry for output file
 		String entry ="";
 		for (String field : aphonebookentry){
-			entry = entry + field+" ";
+			entry = entry + field+"\n";
 		}
 		return entry;
+	}
+	public String getField(String field){
+		String param =null;
+		Scanner scn;
+		for (String entryfield : aphonebookentry){
+			scn = new Scanner(entryfield);
+			if (scn.next().equals(field))
+				param= scn.nextLine();scn.close();
+		}
+		return param;
 	}
 
 	public static void main(String[] args) {
