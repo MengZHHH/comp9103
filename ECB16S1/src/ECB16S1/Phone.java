@@ -4,13 +4,15 @@ public class Phone {
 	private String phone;
 	
 	public Phone(String phone){
-		checkPhone(phone);
 		this.phone = phone;
 
 	}
 	
-	public static boolean checkPhone(String phone){
+	public boolean checkPhone(){
 		//do some regex
+		if (!phone.matches("\\d{6,10}")){
+			System.out.println("incorrect phone format"+phone);return false;
+		}
 		return true;
 	}
 	
@@ -19,10 +21,6 @@ public class Phone {
 		return phonecat;
 	}
 	
-	
-	public static void main(String[] args) {
-		//
 
-	}
 
 }

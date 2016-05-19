@@ -3,13 +3,15 @@ public class Email {
 private String email;
 	
 	public Email(String email){
-		checkEmail(email);
 		this.email = email;
 
 	}
 	
-	public static boolean checkEmail(String email){
+	public boolean checkEmail(){
 		//do some regex
+		if (!email.matches("[A-Za-z0-9\\.\\@]+")){
+			System.out.println("Wrong email format: "+email);return false;
+		}
 		return true;
 	}
 	
@@ -18,11 +20,6 @@ private String email;
 		return emailcat;
 	}
 	
-	
-	public static void main(String[] args) {
-		//
-
-	}
 
 
 }

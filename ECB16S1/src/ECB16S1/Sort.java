@@ -2,76 +2,98 @@ package ECB16S1;
 import java.util.ArrayList;
 import java.util.Collections;
 
-
+/**
+ * Quicksort method implemented for ArrayList<Phonebookentry> type. Sorts first by alphabetical order
+ *  in Name and then ascending order in Birthday.
+ * @author Jason Lockie
+ *
+ */
 public class Sort {
-
-	public static ArrayList<Phonebookentry> sortPhonebook(ArrayList<Phonebookentry> list){
+	private static ArrayList<Phonebookentry> results;
+    private int length;
+/**
+ * 
+ * @param query - arraylist of Phonebookentry type from the Phonebookentry.query() method
+ * @return - returns the ArrayList<Phonebookentry> in a sorted order by Name and then Birthday
+ */
+	public static ArrayList<Phonebookentry> sortPhonebook(ArrayList<Phonebookentry> query){
         Sort sorter = new Sort();
-        ArrayList<Phonebookentry> results = list;//ECB.results;
-        sorter.sort(results);
+        results = query;
+        ArrayList<Phonebookentry> srtdquery = sorter.sort();
 		
-		return results;
+		return srtdquery;
 	}
 	
-	private ArrayList<Phonebookentry> results;
-    private int length;
- 
-    public void sort(ArrayList<Phonebookentry> results) {
+ /**
+  * First performs quicksort on name (ascending order) then by birthday ascending order.
+  * @param results - arraylist of Phonebookentry type
+  */
+    public ArrayList<Phonebookentry> sort() {
          
-        if (results == null || results.size() == 0) {
-            return;
+        if (results == null || results.size() == 0) { 
+        	System.out.println("Sorter didnt find entries to sort");
+        	return results;
         }
-        this.results = results;
-        length = results.size();
-        quickSort(0, length - 1);
+        length = results.size() -1;
+        quickSortByName(0, length);
+        fineSortByBirthday();
+        return results;
     }
- 
-    private void quickSort(int lowerIndex, int higherIndex) {
-         
-        int i = lowerIndex;
-        int j = higherIndex;
-        // calculate pivot number, I am taking pivot as middle index number
-        String pivot = results.get(lowerIndex+(higherIndex-lowerIndex)/2).getField("name");
-        // Divide into two arrays
+
+    private void quickSortByName(int lowindex, int highindex) {
+        int asas = highindex;
+        int i = lowindex;
+        int j = highindex;
+        String pivot = results.get(length/2).getField("name");
         while (i <= j) {
-            /**
-             * In each iteration, we will identify a number from left side which
-             * is greater then the pivot value, and also we will identify a number
-             * from right side which is less then the pivot value. Once the search
-             * is done, then we exchange both numbers.
-             */
+           
             while (results.get(i).getField("name").compareTo(pivot) < 0) {
                 i++;
+               
             }
             while (results.get(j).getField("name").compareTo(pivot) > 0) {
                 j--;
+            
             }
             if (i <= j) {
-                exchangeNumbers(i, j);
-                //move index to next position on both sides
+
+            	swapIt(i, j);
                 i++;
                 j--;
+            	
             }
         }
-        // call quickSort() method recursively
-        if (lowerIndex < j)
-            quickSort(lowerIndex, j);
-        if (i < higherIndex)
-            quickSort(i, higherIndex);
+        if (lowindex < j)
+        	quickSortByName(lowindex, j);
+        if (i < highindex)
+        	quickSortByName(i, highindex);
     }
- 
-    private void exchangeNumbers(int i, int j) {
-    	Collections.swap(results, i, j);
-    	//Phonebookentry temp = results.get(i);
-    	//results.set(i) = results.get(j);
-        //results.set(j) = temp;
+    
+    private void fineSortByBirthday() {
         
-    }
-     
-    public static void main(String[] args){
-         
+        int i = 0;
+        int j = results.size()-1;
 
-
+        while (j>0) {
+           i=0;
+   
+            while (!results.get(i).getField("name").equals(results.get(j).getField("name")) && i<j) {
+                i++;
+            }
+            if (results.get(i).getBirthdate()>results.get(j).getBirthdate()){
+                swapIt(i, j);}
+                j--;
+        }
+            
+        }
+ /**
+  * Swap function for two Phonebookentry in an arraylist at indices i and j.
+  * @param i
+  * @param j
+  */
+    private void swapIt(int i, int j) {
+    	Collections.swap(results, i, j);
+        
     }
 
 

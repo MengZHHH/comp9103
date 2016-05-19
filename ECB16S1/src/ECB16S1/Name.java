@@ -5,13 +5,15 @@ public class Name {
 	private String name;
 	
 	public Name(String name){
-		checkName(name);
 		this.name = name;
 
 	}
 	
-	public static boolean checkName(String name){
+	public boolean checkName(){
 		//do some regex
+		if (!name.matches("[A-Za-z \\s]+")){
+			System.out.println("incorrect name format: "+name);return false;
+		}
 		return true;
 	}
 	

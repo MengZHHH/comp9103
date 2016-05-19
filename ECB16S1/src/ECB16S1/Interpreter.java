@@ -2,23 +2,44 @@ package ECB16S1;
 import java.util.Arrays;
 import java.util.Scanner;
 
-
+/** 
+ * The Interpreter class consists of static methods for interpreting the text format
+ *  instruction file and phonebook input file and to call the necessary classes for 
+ *  building the phonebook objects such as Email and compiling these objects into a 
+ *  Phonebookentry.
+ * @author Jason Lockie
+ *
+ */
 public class Interpreter {
 	public static Phonebookentry thephonebookentry;
 	private static String[] values = {"name","birthday","phone","email","address","add", "delete", "save", "query"};
-
+/**
+ * Static method searches the dictionary of keywords such as "birthday" and "delete" 
+ * and returns an integer value used for the control variable in the Switcher method.
+ * @param term -a string value
+ * @return Returns an integer
+ */
 	public static int searchTerm(String term){
 		int switch_int = Arrays.asList(values).indexOf(term);
 		return switch_int;
 	}
-	
+	/**
+	 * Static method returns true when String parameter is found in the dictionary of keywords.
+	 * @param term - String value
+	 * @return boolean
+	 */
 	public static boolean isTerm(String term){
 		boolean test=false;
 		for(String value: values) {
 		    if(value.contains(term)){test=true;}
 		}
 		return test;}
-	
+	/**
+	 * Takes two scanner objects used for identifying keyword arguments and input 
+	 * parameters which they relate to which are used to call the Switcher method.
+	 * @param scn - scans by default delimiter
+	 * @param lscn - scans by newline characters
+	 */
 	public static void interpret(Scanner scn, Scanner lscn){
 		thephonebookentry = new Phonebookentry();
 		lscn.nextLine();
@@ -48,6 +69,12 @@ public class Interpreter {
 			if (lscn.hasNextLine() && lscn.nextLine().isEmpty()){break;}//does this break loop early enough??
 			}
 }
+	/**
+	 * Static method contains a switch controlled by 
+	 * @param thephonebookentry - The phonebook object which stores all information in an arraylist for each contact.
+	 * @param index - control variable for switch comes from searchTerm based on the keyword object found in Interpret method.
+	 * @param param - values used to construct the field entry (phone, email, address) into a Phonebookentry.
+	 */
 public static void switcher(Phonebookentry thephonebookentry,int index,String param){	
 	switch (index){
 	
@@ -80,32 +107,38 @@ public static void switcher(Phonebookentry thephonebookentry,int index,String pa
 	}
 	case 4:{//address
 		Address address = new Address(param);
-		System.out.println("added address");
-		thephonebookentry.addField(address.toString()); break;}
+		if (address.checkAddress()){
+		thephonebookentry.addField(address.toString());}
+		else { System.out.println("Not a valid address format: "+address.toString());}
+		break;}
 
 	case 0:{//name
 		Name name = new Name(param);
-		System.out.println("added name");
-		thephonebookentry.addField(name.toString()); break;}
+		if (name.checkName()){
+		thephonebookentry.addField(name.toString());}
+		else { System.out.println("Not a valid phone format: "+name.toString());}
+		break;}
 	case 2:{//phone
 		Phone phone = new Phone(param);
-		System.out.println("added phone");
-		thephonebookentry.addField(phone.toString()); break;}
+		if (phone.checkPhone()){
+		thephonebookentry.addField(phone.toString());}
+		else { System.out.println("Not a valid phone format: "+phone.toString());}
+		break;}
 	case 3:{//email
 		Email email = new Email(param);
-		System.out.println("added email");
-		thephonebookentry.addField(email.toString()); break;}
+		if (email.checkEmail()){
+		thephonebookentry.addField(email.toString());}
+		else { System.out.println("Not a valid email format: "+email.toString());}
+		break;}
 	case 1:{//birthday
 		Birthday birthday = new Birthday(param);
 		System.out.println("added birthday");
-		thephonebookentry.addField(birthday.toString()); break;}
+		if (birthday.checkBirthday()){
+		thephonebookentry.addField(birthday.toString());}
+		else { System.out.println("Not a valid birthday format: "+birthday.toString());}
+		break;}
 
 }
 }
-
-	public static void main(String[] args) {
-		
-
-	}
 }
 
