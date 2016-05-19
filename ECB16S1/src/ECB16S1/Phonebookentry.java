@@ -50,8 +50,7 @@ public class Phonebookentry {
 							String keyword, input;
 							Scanner vscn = new Scanner(nextparam);
 							keyword = vscn.next();input = vscn.nextLine();vscn.close();
-							entry.rmField(keyword);//field already exists in entry
-							System.out.println("adding keyword:"+keyword+"with input:"+input);
+							entry.rmField(keyword);
 							int index = Interpreter.searchTerm(keyword);
 							Interpreter.switcher(entry,index,input);
 						
@@ -62,19 +61,17 @@ public class Phonebookentry {
 				}
 			}
 		}if (!found){//the add
-			System.out.println("addReplace did not find matching entry");
 			String paramcat ="";
 			Scanner vscn = new Scanner(param);
 			vscn.useDelimiter(";");
 			while (vscn.hasNext()){
 			paramcat = paramcat + vscn.next().trim() +"\n";}vscn.close();
 			String fullparam = "name "+ name +"\n"+ "birthday " + birthday + "\n" + paramcat;
-			System.out.println("sending:"+fullparam+"to the interpreter");
 			Scanner nscn = new Scanner(fullparam);
 			Scanner nlscn = new Scanner(fullparam);
 			//ECB.setEntryId();
 			Interpreter.interpret(nscn, nlscn);
-			//ECB.thephonebook.add(ECB.getEntryId(),Interpreter.thephonebookentry);//out of bounds exception
+			//ECB.thephonebook.add(ECB.getEntryId(),Interpreter.thephonebookentry);
 			ECB.thephonebook.add(Interpreter.thephonebookentry);
 		}
 		
@@ -95,29 +92,20 @@ public class Phonebookentry {
 	 * @param param - String value contains keyword argument at first index followed by the contacts information for the corresponding keyword's field.
 	 */
 	public static void query(String param){
-		//query phone 9110110
-		//query name joe bloggs
-		//query birthday 12/04/1999
 
 		String beginquery = "====== query "+param+" ======"+'\n';
 		String finishquery = "====== end of query "+param+" ======"+'\n';
 		ArrayList<Phonebookentry> query = new ArrayList<Phonebookentry>();
 		ECB.results.add(beginquery);
 		for (Phonebookentry entry : ECB.thephonebook){
-			System.out.println("quering new entry");
-			System.out.println(entry.getEntry().getClass());
 			for (String field : entry.getEntry()){
-				System.out.println("entry field:"+field+"compared to param:"+param);
 				if (field.equals(param)){
 					query.add(entry);
-					System.out.println(query.get(0).toString());
-					System.out.println("query matched an entry");
 				}
 			}
 		}
-		System.out.println("sort the querireseses!!!");
 		query = Sort.sortPhonebook(query);
-		if (query!=null){System.out.println("query is null??"); 
+		if (query!=null){ 
 		for (Phonebookentry entry : query){
 			ECB.results.add(entry.toString());
 		}
@@ -125,17 +113,14 @@ public class Phonebookentry {
 		ECB.results.add(finishquery);
 	}
 	public double getBirthdate(){
-		//if (getField("birthday") ==null){return -1.0;}
-		System.out.println(getField("birthday"));
+;
 		String birthday = getField("birthday");
 		int day,month,year;
 		String[] datearr = birthday.split("-");
 		day = Integer.parseInt(datearr[0].trim());
 		month= Integer.parseInt(datearr[1].trim());
 		year= Integer.parseInt(datearr[2].trim());
-		//Date date = new Date(year,month,day);
-		double simplecompare = (year+(month/12)+(day/365));
-		System.out.println("simplecompare dat is: "+simplecompare);
+		float simplecompare = (year+((float)month/12)+((float)day/365));
 		return simplecompare;
 	}
 	/**
@@ -143,15 +128,14 @@ public class Phonebookentry {
 	 * @param param - example: Jaff vaders, or: Jeff Vader ; 8-07-1980
 	 */
 	public static void delete(String param){
-		//delete Jeff Vader ; 8-07-1980
-		//delete Jaff vaders
+
 		Scanner scn = new Scanner(param);
 		scn.useDelimiter(";");
 		String name,birthday=null;
 		name = scn.next().trim(); 
 		if (scn.hasNext()){
 			birthday = scn.next().trim();scn.close();
-			//for (Phonebookentry entry : ECB.thephonebook){//throws concurrent modification error
+			//for (Phonebookentry entry : ECB.thephonebook){
 			for (int i=0;i<ECB.thephonebook.size();i++){
 				Phonebookentry entry = ECB.thephonebook.get(i);
 				for (String field : entry.getEntry()){
@@ -171,7 +155,7 @@ public class Phonebookentry {
 	 * Prints multiline string of phonebook  entry for output phone book file
 	 */
 	public String toString(){
-		//print multiline string of entry for output file
+
 		String entry ="";
 		for (String field : aphonebookentry){
 			entry = entry + field+"\n";

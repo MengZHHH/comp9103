@@ -29,19 +29,19 @@ public class Sort {
   * @param results - arraylist of Phonebookentry type
   */
     public ArrayList<Phonebookentry> sort() {
-         
+    	length = results.size() -1; 
         if (results == null || results.size() == 0) { 
         	System.out.println("Sorter didnt find entries to sort");
         	return results;
         }
-        length = results.size() -1;
+        
         quickSortByName(0, length);
         fineSortByBirthday();
         return results;
     }
 
     private void quickSortByName(int lowindex, int highindex) {
-        int asas = highindex;
+        
         int i = lowindex;
         int j = highindex;
         String pivot = results.get(length/2).getField("name");

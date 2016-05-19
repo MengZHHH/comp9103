@@ -10,8 +10,8 @@ import java.util.regex.Pattern;
 public class ECB {
 	public static ArrayList<Phonebookentry> thephonebook = new ArrayList<Phonebookentry>();
 	public static ArrayList<String> results = new ArrayList<String>();
-	protected static int entryid = -1;
-	protected static int next_available_id = 0;
+	private static int entryid = -1;
+	private static int next_available_id = 0;
 	private static File infile;
 	private static File ifile;//instructions
 	private static File outfile;	
@@ -29,6 +29,10 @@ public class ECB {
  * @param args - filenames: 4 arguments required
  */
 	public static void main(String[] args){
+		if (args.length !=4){System.out.print("Please specifiy the four arguments:\n" +
+				"$>>phonebookfile instructionfile resultsfile reportfile \n $>>");
+		String newstr = new Scanner(System.in).nextLine();
+		args = newstr.split(" ");}
 		infile = new File(args[0]);
 		ifile = new File(args[1]);
 		outfile = new File(args[2]);
@@ -45,6 +49,7 @@ public class ECB {
 //Print the output phone book file
 		savePhonebook();
 
+		System.out.println("Done!");
 	}
 /**
  * Static method opens file args[2] and writes the phonebook entries 
@@ -57,10 +62,11 @@ public class ECB {
 			PrintWriter pw = new PrintWriter(fw);
 			for (Phonebookentry phonebookentry : thephonebook){
 				pw.println(phonebookentry.toString());
-		}pw.close();fw.close();System.out.println("phonebook output file saved");
+		}pw.close();fw.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	
 		
 	}
 	/**
@@ -74,13 +80,11 @@ public class ECB {
 			Scanner lscn = new Scanner(infile);
 			while (scn.hasNextLine()){
 				setEntryId();
-				System.out.println("new entry " + getEntryId());
 				Interpreter.interpret(scn,lscn);
-				if (true){
-				//check for name and birthday exist in entry
+				if (Interpreter.thephonebookentry.getField("name")!=null&&
+						Interpreter.thephonebookentry.getField("birthday")!=null){
 					thephonebook.add(getEntryId(),Interpreter.thephonebookentry);}
 				}
-			System.out.println("phonebook built");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}		
@@ -96,9 +100,8 @@ public class ECB {
 			Scanner lscn = new Scanner(ifile);
 			Scanner scn = new Scanner(ifile);
 			while (scn.hasNextLine()){
-				System.out.println("new instruction");
 				Interpreter.interpret(scn,lscn);
-				}System.out.println("instructions finished");
+				}
 			
 					
 		} catch (FileNotFoundException e) {
@@ -114,7 +117,6 @@ public class ECB {
 		try {
 			FileWriter rfw = new FileWriter(rfile);
 			PrintWriter rpw = new PrintWriter(rfw);
-			System.out.println("outputting results to file");
 			for (String phonebookentry : results){
 				rpw.println(phonebookentry);
 		}rpw.close();rfw.close();

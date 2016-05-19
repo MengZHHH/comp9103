@@ -12,7 +12,8 @@ import java.util.Scanner;
  */
 public class Interpreter {
 	public static Phonebookentry thephonebookentry;
-	private static String[] values = {"name","birthday","phone","email","address","add", "delete", "save", "query"};
+	private static String[] values = {"name","birthday","phone","email","address",
+		"add", "delete", "save", "query"};
 /**
  * Static method searches the dictionary of keywords such as "birthday" and "delete" 
  * and returns an integer value used for the control variable in the Switcher method.
@@ -45,7 +46,6 @@ public class Interpreter {
 		lscn.nextLine();
 			while (scn.hasNextLine()){
 					String instruction = scn.nextLine();
-				System.out.println("interpreter instruction:"+instruction);
 					Scanner iscn = new Scanner(instruction);
 					String keyword=null, param="is not set yet";
 					if (iscn.hasNext()){
@@ -53,20 +53,18 @@ public class Interpreter {
 					}
 					if (iscn.hasNextLine()){
 						param = iscn.nextLine().trim();iscn.close();
-						System.out.println("param:"+param);
 					}
 					else {iscn.close();continue;}
 					int index = -1;
-					if (isTerm(keyword)){ index = searchTerm(keyword); System.out.println("index = "+values[index]);}
+					if (isTerm(keyword)){ index = searchTerm(keyword);}
 					else { System.out.println("interpreter found invalid field type or command. Skipping through...");
 					lscn.nextLine();
 					scn.nextLine();
 					continue;}
 		
 		switcher(thephonebookentry,index,param);
-		System.out.println("switcher was called");
-					
-			if (lscn.hasNextLine() && lscn.nextLine().isEmpty()){break;}//does this break loop early enough??
+
+			if (lscn.hasNextLine() && lscn.nextLine().isEmpty()){break;}
 			}
 }
 	/**
@@ -79,7 +77,7 @@ public static void switcher(Phonebookentry thephonebookentry,int index,String pa
 	switch (index){
 	
 	default:{
-		System.out.println("not a valid case yet"); break;}//scn.next();
+		System.out.println("oops, not sure how to perform that command..."); break;}
 
 	case 5:{//add
 		String name,birthday;
@@ -88,13 +86,9 @@ public static void switcher(Phonebookentry thephonebookentry,int index,String pa
 		String argname = pscn.next();String argbirthday = pscn.next();
 		name = argname.replace("name ","").trim();birthday = argbirthday.replace("birthday ", "").trim();
 		param = pscn.nextLine();
-		System.out.println("addReplace name:"+name);
-		System.out.println("addReplace birthday:"+birthday);
-		System.out.println("param for add or replace:"+param);
 		Phonebookentry.addReplace(name,birthday,param);pscn.close();break;
 	}
 	case 6:{//delete
-		System.out.println("deleting..."+param);
 		Phonebookentry.delete(param);break;
 	}
 	case 7:{//save
@@ -102,7 +96,6 @@ public static void switcher(Phonebookentry thephonebookentry,int index,String pa
 		break;
 	}
 	case 8:{//query
-		System.out.println("query called in switch with param:"+param);
 		Phonebookentry.query(param);break;
 	}
 	case 4:{//address
@@ -132,7 +125,6 @@ public static void switcher(Phonebookentry thephonebookentry,int index,String pa
 		break;}
 	case 1:{//birthday
 		Birthday birthday = new Birthday(param);
-		System.out.println("added birthday");
 		if (birthday.checkBirthday()){
 		thephonebookentry.addField(birthday.toString());}
 		else { System.out.println("Not a valid birthday format: "+birthday.toString());}
